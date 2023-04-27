@@ -6,8 +6,10 @@ public class CatGame {
     public int catPos;
     public int n;
     public ShortestPathTree sp;
+    public boolean trapped;
     
     public CatGame(int n) {
+        trapped = false;
         this.n = n;
         graph = new CatGraph(n*n);
         marked = new boolean[n*n];
@@ -67,7 +69,7 @@ public class CatGame {
         }
     }
     
-    void markTile(int row, int col) {
+    public void markTile(int row, int col) {
         int v = index(row, col);
         
         //update marked
@@ -81,18 +83,30 @@ public class CatGame {
         
         //dijkstra to move cat
         sp = new ShortestPathTree(graph, catPos);
+        if (sp.hasPathTo(n*n)) {
+            //move cat to next spot
+        } else {
+            trapped = true;
+        }
     }
     
-    boolean marked(int row, int col) {
+    public boolean marked(int row, int col) {
         int v = index(row, col);
         return marked[v];
     }
     
-    //int[] getCatTile() {}
+    public int[] getCatTile() {
+        int[] catTile = {getRow(catPos), getCol(catPos)};
+        return catTile;
+    }
     
-    //boolean catHasEscaped() {}
+    boolean catHasEscaped() {
+        return catPos == n*n;
+    }
     
-    //boolean catIsTrapped() {}
+    boolean catIsTrapped() {
+        return trapped;
+    }
     
     public int index(int row, int col) {
         return row*n + col;
