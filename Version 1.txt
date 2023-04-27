@@ -1,0 +1,44 @@
+for (int row = 0; row < n; row++) {
+            for (int col = 0; col < n; col++) {
+                int v = index(row, col);
+                
+                
+                
+                /////////
+                if (row == 0) { //if on top row
+                    graph.addEdge(new CatEdge(v, FREEDOM));
+                } else {
+                    if (col != 0) { //if not on left side
+                        graph.addEdge(new CatEdge(v, v-n-1)); //top left
+                    }
+                    if (col != n) { //if not on right side
+                        graph.addEdge(new CatEdge(v, v-n)); //top right
+                    }
+                }
+                
+                if (row == n) { //if on bottom row
+                    graph.addEdge(new CatEdge(v, FREEDOM));
+                } else {
+                    if (col != 0) { //if not on left side
+                        graph.addEdge(new CatEdge(v, v+n-1)); //bottom left
+                    }
+                    if (col != n) { //if not on right side
+                        graph.addEdge(new CatEdge(v, v+n)); //bottom right
+                    }
+                }
+                
+                if (col == 0) {
+                    graph.addEdge(new CatEdge(v, FREEDOM));
+                } else {
+                    graph.addEdge(new CatEdge(v, v-1); //left
+                }
+                
+                if (col == n) {
+                    graph.addEdge(new CatEdge(v, FREEDOM));
+                } else {
+                    graph.addEdge(new CatEdge(v, v+1); //right
+                }
+                
+                /////////
+            }
+        }

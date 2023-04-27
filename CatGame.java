@@ -1,10 +1,11 @@
+import edu.princeton.cs.algs4.Edge;
+
 public class CatGame {
     public CatGraph graph;
     public boolean[] marked;
     public int catPos;
     public int n;
     public ShortestPathTree sp;
-    public final int FREEDOM = n*n;
     
     public CatGame(int n) {
         this.n = n;
@@ -12,16 +13,13 @@ public class CatGame {
         marked = new boolean[n*n];
         catPos = index(n/2, n/2);
         
-        for (int row = 0; row < n; row++) {
-            for (int col = 0; col < n; col++) {
+        //inner hexagons
+        for (int row = 1; row < n-1; row++) {
+            for (int col = 1; col < n-1; col++) {
                 int v = index(row, col);
                 
-                
-                
-                /////////
-                if (row == 0) { //if on top row
-                    graph.addEdge(new CatEdge(v, FREEDOM));
-                } else {
+                //add top left and right
+                if (row != 0) { //not on top row
                     if (col != 0) { //if not on left side
                         graph.addEdge(new CatEdge(v, v-n-1)); //top left
                     }
@@ -30,9 +28,8 @@ public class CatGame {
                     }
                 }
                 
-                if (row == n) { //if on bottom row
-                    graph.addEdge(new CatEdge(v, FREEDOM));
-                } else {
+                //add bottom left and right
+                if (row != n) { //not on bottom row
                     if (col != 0) { //if not on left side
                         graph.addEdge(new CatEdge(v, v+n-1)); //bottom left
                     }
@@ -41,21 +38,26 @@ public class CatGame {
                     }
                 }
                 
-                if (col == 0) {
-                    graph.addEdge(new CatEdge(v, FREEDOM));
-                } else {
-                    graph.addEdge(new CatEdge(v, v-1); //left
+                //add left
+                if (col != 0) {
+                    graph.addEdge(new CatEdge(v, v-1)); //left
                 }
                 
-                if (col == n) {
-                    graph.addEdge(new CatEdge(v, FREEDOM));
-                } else {
-                    graph.addEdge(new CatEdge(v, v+1); //right
+                //add right
+                if (col != n) {
+                    graph.addEdge(new CatEdge(v, v+1)); //right
                 }
                 
-                /////////
+                //if on border
+                if (col == 0 || col == n) {
+                    graph.addEdge(new CatEdge(v, n*n)); //freedom hexagon
+                }
+                if (row == 0 || row == n) {
+                    graph.addEdge(new CatEdge(v, n*n)); //freedom hexagon
+                }
             }
         }
+        
         
         //make separate for loop for outside tiles (one for each side?)
         //make them connect to freedom hexagon
@@ -72,8 +74,9 @@ public class CatGame {
         marked[v] = true;
         
         //make adjacent edge weights infinity
-        for(CatEdge e : graph.adj(v)) {
-            e.changeWeight();
+        for(Edge e : graph.adj(v)) {
+            CatEdge i = (CatEdge) e;
+            i.changeWeight();
         }
         
         //dijkstra to move cat
