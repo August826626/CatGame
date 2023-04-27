@@ -1,9 +1,10 @@
 
-import edu.princeton.cs.algs4.DijkstraSP;
+import edu.princeton.cs.algs4.DijkstraUndirectedSP;
 
-public class ShortestPathTree extends DijkstraSP {
+public class ShortestPathTree extends DijkstraUndirectedSP {
     
-    public SPT(EdgeWeightedGraph G) {
-        ShortestPathTree(EdgeWeightedGraph G);
+    public ShortestPathTree(CatGraph G, int s) {
+        super(G, s);
     }
+    
 }

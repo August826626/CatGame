@@ -1,8 +1,10 @@
 public class CatGame {
     public CatGraph graph;
-    public Boolean[] marked;
+    public boolean[] marked;
     public int catPos;
     public int n;
+    public ShortestPathTree sp;
+    public final int FREEDOM = n*n;
     
     public CatGame(int n) {
         this.n = n;
@@ -13,14 +15,50 @@ public class CatGame {
         for (int row = 0; row < n; row++) {
             for (int col = 0; col < n; col++) {
                 int v = index(row, col);
-                graph.addEdge(new CatEdge(v, v-n-1)); //top left
-                graph.addEdge(new CatEdge(v, v-n)); //top right
-                graph.addEdge(new CatEdge(v, v-1)); //left
-                graph.addEdge(new CatEdge(v, v+1)); //right
-                graph.addEdge(new CatEdge(v, v+n-1)); //bottom left
-                graph.addEdge(new CatEdge(v, v+n)); //bottom right
+                
+                
+                
+                /////////
+                if (row == 0) { //if on top row
+                    graph.addEdge(new CatEdge(v, FREEDOM));
+                } else {
+                    if (col != 0) { //if not on left side
+                        graph.addEdge(new CatEdge(v, v-n-1)); //top left
+                    }
+                    if (col != n) { //if not on right side
+                        graph.addEdge(new CatEdge(v, v-n)); //top right
+                    }
+                }
+                
+                if (row == n) { //if on bottom row
+                    graph.addEdge(new CatEdge(v, FREEDOM));
+                } else {
+                    if (col != 0) { //if not on left side
+                        graph.addEdge(new CatEdge(v, v+n-1)); //bottom left
+                    }
+                    if (col != n) { //if not on right side
+                        graph.addEdge(new CatEdge(v, v+n)); //bottom right
+                    }
+                }
+                
+                if (col == 0) {
+                    graph.addEdge(new CatEdge(v, FREEDOM));
+                } else {
+                    graph.addEdge(new CatEdge(v, v-1); //left
+                }
+                
+                if (col == n) {
+                    graph.addEdge(new CatEdge(v, FREEDOM));
+                } else {
+                    graph.addEdge(new CatEdge(v, v+1); //right
+                }
+                
+                /////////
             }
         }
+        
+        //make separate for loop for outside tiles (one for each side?)
+        //make them connect to freedom hexagon
         
         for (int i = 0; i < marked.length; i ++) {
             marked[i] = false;
@@ -39,11 +77,11 @@ public class CatGame {
         }
         
         //dijkstra to move cat
-        catPos = STP(graph, v);
+        sp = new ShortestPathTree(graph, catPos);
     }
     
     boolean marked(int row, int col) {
-        v = index(row, col);
+        int v = index(row, col);
         return marked[v];
     }
     
