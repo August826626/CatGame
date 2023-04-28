@@ -72,6 +72,9 @@ public class CatGame {
     
     public void markTile(int row, int col) {
         int v = index(row, col);
+        System.out.println(row);
+        System.out.println(col);
+        System.out.println(v);
         
         //update marked
         marked[v] = true;
@@ -86,6 +89,10 @@ public class CatGame {
         sp = new ShortestPathTree(graph, catPos);
         Stack<Edge> stack = (Stack<Edge>) sp.pathTo(n*n);
         catPos = stack.pop().other(catPos);
+    }
+    
+    public void shadeTile(int row, int col) {
+        
     }
     
     public boolean marked(int row, int col) {
